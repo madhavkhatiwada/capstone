@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Your head content -->
+</head>
+<body>
+<!-- Display the logged-in user's username -->
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+  <p th:text="'Logged in as: ' + ${#authentication.principal.email}"></p>
+</div>
+
+<h2>Edit Post</h2>
+<form th:action="@{/posts/{id}(id=${post.id})}" method="post">
+  <input type="text" th:field="*{title}" th:value="${post.title}" required>
+  <textarea th:field="*{body}" rows="8" cols="50" th:text="${post.body}" required></textarea>
+  <button type="submit">Save Changes</button>
+</form>
+</body>
+</html>

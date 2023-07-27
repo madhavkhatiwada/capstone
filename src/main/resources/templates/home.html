@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discussion</title>
+</head>
+<body>
+<div class="container">
+  <h1>Online Discussion Forum</h1>
+  <hr />
+  <ul>
+    <li><a th:href="@{/posts/new}">New Post</a></li>
+  </ul>
+  <div class="posts-container">
+    <div class="post" th:each="post : ${posts}">
+      <h2><a th:href="@{'/posts/' + ${post.id}}" th:text="${post.title}">Title</a></h2>
+      <h5 th:text="'Written by ' + ${post.user.firstName + ' ' + post.user.lastName}">Author</h5>
+      <h5 th:text="'Published at ' + ${post.createdAt}">Published At</h5>
+      <h5 th:text="'Updated at ' + ${post.updatedAt}">Updated At</h5>
+      <p th:text="${post.body}">body text</p>
+      <br>
+    </div>
+  </div>
+  <hr />
+  <ul th:if="!${#authorization.expression('isAuthenticated()')}">
+    <li><a th:href="@{/register}">Register</a></li>
+    <li><a th:href="@{/login}">Login</a></li>
+  </ul>
+  <div th:if="${#authorization.expression('isAuthenticated()')}">
+    <form th:action="@{/logout}" method="POST">
+      <div>
+        <label>Hi, <span th:text="${#authentication.name}">Username</span></label>
+      </div>
+      <button type="submit">Logout</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
